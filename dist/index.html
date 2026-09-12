@@ -36,7 +36,7 @@ const categoryPages={
   previsao:{title:'Previsão do tempo',intro:'Informações meteorológicas, mapas e imagens de satélite.',links:['Previsão para o Brasil','Tempo em sua Cidade','Mapas Meteorológicos','Imagem de Satélite','Marés e Ventos','Clima Mundial','Índices UV','Alertas']}
 };
 Object.entries(categoryPages).forEach(([id,data])=>{const page=document.createElement('main');page.id=id;page.className='page';page.innerHTML=`<div class="gw"><a class="back" href="#guia">&lt;&lt; voltar ao GuiaWeb 2000</a><section class="category-page"><h1>${data.title}</h1><p>${data.intro}</p><div class="link-list">${data.links.map(link=>`<a>${link}</a>`).join('')}</div></section></div>`;document.body.append(page)});
-document.querySelectorAll('#guide .gw-category').forEach(card=>{const title=card.querySelector('h2').textContent.trim().toLowerCase();const id=title==='previsão do tempo'?'previsao':title;card.querySelectorAll('a').forEach(link=>{if(id!=='esoterismo')link.href='#'+id})});
+document.querySelectorAll('#guide .gw-category').forEach(card=>{const title=card.querySelector('h2').textContent.trim().toLowerCase();const ids={'notícias':'noticias','jogos':'jogos','tecnologia':'tecnologia','esoterismo':'esoterismo','futebol':'futebol','previsão do tempo':'previsao'};const id=ids[title];card.querySelectorAll('a').forEach(link=>{if(id!=='esoterismo')link.href='#'+id})});
 function openGallery(){document.getElementById('gallery').classList.add('active');setTimeout(()=>document.getElementById('gallery').scrollIntoView({behavior:'smooth',block:'start'}),0)}
 function changePhoto(src,cap){document.getElementById('mainPhoto').src=src;document.getElementById('photoCaption').textContent=cap}
 addEventListener('hashchange',route);route();
