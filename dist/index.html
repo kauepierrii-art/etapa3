@@ -32,6 +32,18 @@
     .ob-section h2{font-size:24px;color:#d4cbaa;margin-bottom:9px}.ob-section li:nth-child(2n){font-size:15px}.ob-section li:nth-child(3n){margin-left:11px}.note{border:0;background:transparent;padding:0 0 0 14px;color:#ada58e;font-style:italic}.obscura a{color:#7999e8}.obscura a:visited,.aged-link{color:#a67db4}.ob-footer{margin-top:18px;border-top:1px solid #4d4837;padding:8px 2px 3px;color:#958d76;font-size:12px;line-height:1.5}.dead-end{color:#7e7561!important;text-decoration:line-through}.guest-entry{margin:12px 0;padding-left:10px;border-left:1px solid #5d5642;color:#aea58c}.guest-entry b{color:#c7b78f;font-weight:normal}
     @media(max-width:620px){.ob-body{grid-template-columns:1fr}.index-list{border-right:0;border-bottom:1px solid #4d4837;padding:0 0 8px}.ob-wrap{padding:9px}.ob-nav a{margin-right:4px}.ob-head{text-align:center}}
   </style>
+  <style>
+    .folder-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px 26px;margin:18px 0 4px}
+    .archive-folder{margin:0;background:#201c14;border:1px solid #77705b;padding:5px;min-width:0}
+    .archive-folder button{display:block;width:100%;padding:0;border:0;background:transparent;text-align:left;color:#7999e8;font-family:"Times New Roman",Times,serif}
+    .archive-folder img{width:100%;height:92px;object-fit:cover;display:block;filter:grayscale(1) contrast(.84)}
+    .archive-folder figcaption{padding-top:5px;font:12px "Courier New",monospace;overflow-wrap:anywhere}
+    .archive-folder small{display:block;color:#938a71;font:11px "Times New Roman",Times,serif;margin-top:2px}
+    .archive-gallery{margin-top:22px}.archive-gallery h3{color:#d1c7a9;font-size:19px;font-weight:normal;margin:0 0 8px}
+    .archive-gallery .gallery-main{max-height:min(65vh,610px)}
+    .archive-gallery .gallery-strip button{color:#a89e82}.archive-gallery .gallery-strip button:focus{outline:1px dotted #cabf97}
+    @media(max-width:620px){.folder-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.archive-folder img{height:88px}.archive-gallery .gallery-main{max-height:55vh}}
+  </style>
 </head>
 <body>
 <main id="guide" class="page active"><div class="gw"><header class="gw-top"><div class="brand">GuiaWeb <small>2000</small></div><p class="tag">Seu guia de páginas na internet</p><div class="search"><label for="busca">Consulta</label><input id="busca" aria-label="Consulta"><button>Busca</button><a>Informações</a></div></header><section class="gw-grid"><div class="gw-category"><span class="category-icon" aria-hidden="true">📰</span><div><h2><a>Notícias</a></h2><p><a>Jornais</a>, <a>Revistas</a>, <a>Atualidades</a></p></div></div><div class="gw-category"><span class="category-icon" aria-hidden="true">🎮</span><div><h2><a>Jogos</a></h2><p><a>PC</a>, <a>Consoles</a>, <a>Dicas</a></p></div></div><div class="gw-category"><span class="category-icon" aria-hidden="true">💾</span><div><h2><a>Tecnologia</a></h2><p><a>Computadores</a>, <a>Internet</a>, <a>Programas</a></p></div></div><div class="gw-category"><span class="category-icon" aria-hidden="true">🔮</span><div><h2><a href="#esoterismo">Esoterismo</a></h2><p><a href="#esoterismo">Tarot</a>, <a href="#esoterismo">Símbolos</a>, <a href="#esoterismo">Mistérios</a></p></div></div><div class="gw-category"><span class="category-icon" aria-hidden="true">⚽</span><div><h2><a>Futebol</a></h2><p><a>Campeonatos</a>, <a>Times</a>, <a>Resultados</a></p></div></div><div class="gw-category"><span class="category-icon" aria-hidden="true">☀️</span><div><h2><a>Previsão do tempo</a></h2><p><a>Brasil</a>, <a>Mapas</a>, <a>Satélite</a></p></div></div></section><aside class="newsbox"><h3>Novidades no GuiaWeb</h3><ul><li><a>Novos sites brasileiros cadastrados hoje</a></li><li><a>Guia de endereços para a virada do milênio</a></li><li><a>Confira a previsão em sua cidade</a></li></ul></aside><footer class="footer"><a>Estatísticas</a> | <a>E-mail</a> | <a>Downloads</a> | <a>Provedores de Acesso</a></footer></div></main>
@@ -61,6 +73,30 @@ obFooter.className='ob-footer';obFooter.innerHTML='Webmaster: <a class="aged-lin
 document.querySelector('.ob-wrap').append(obFooter);
 function openGallery(){document.getElementById('gallery').classList.add('active');setTimeout(()=>document.getElementById('gallery').scrollIntoView({behavior:'smooth',block:'start'}),0)}
 function changePhoto(src,cap){document.getElementById('mainPhoto').src=src;document.getElementById('photoCaption').textContent=cap}
+const archiveFolders=[
+  {id:'theatre',name:'theatre/',title:'Theatre',count:6,path:'assets/archive/theatre',note:'Interior records, no location confirmed.'},
+  {id:'mirror-room',name:'mirror_room/',title:'Mirror Room',count:6,path:'assets/archive/mirror-room',note:'Reflective surfaces documented without notation.'},
+  {id:'street',name:'street/',title:'Street',count:6,path:'assets/archive/street',note:'Exterior sequence. Light conditions vary.'},
+  {id:'tatami',name:'tatami_room/',title:'Tatami Room',count:6,path:'assets/archive/tatami',note:'Floor-room scans recovered from an unlabeled disk.'},
+  {id:'sinister',name:'sinister/',title:'Unsorted',count:6,path:'assets/archive/sinister',note:'Material appended after the index was archived.'},
+  {id:'common-room',name:'common_room/',title:'Community Room',count:7,path:'assets/archive/common-room',note:'Room sequence. Final exposures show the altar.'}
+];
+const archivePath=(folder,index)=>`${folder.path}/${String(index).padStart(2,'0')}.png`;
+const community=document.getElementById('community');
+community.innerHTML=`<h2>Blighted Grounds / Community Rooms</h2><p class="caption">Six recovered folders. Original names retained where possible.</p><div class="folder-grid">${archiveFolders.map(folder=>`<figure class="archive-folder"><button type="button" onclick="openArchive('${folder.id}')"><img src="${archivePath(folder,1)}" alt="Thumbnail for ${folder.title}"><figcaption>${folder.name}</figcaption><small>${folder.count} image files</small></button></figure>`).join('')}</div><div id="folderGallery" class="gallery archive-gallery" aria-live="polite"></div>`;
+function openArchive(id){
+  const folder=archiveFolders.find(item=>item.id===id);if(!folder)return;
+  const gallery=document.getElementById('folderGallery');
+  const files=Array.from({length:folder.count},(_,i)=>i+1);
+  gallery.innerHTML=`<h3>${folder.title} — ${folder.name}</h3><img id="archiveMainPhoto" class="gallery-main" src="${archivePath(folder,1)}" alt="${folder.title}, image 01"><div class="gallery-strip">${files.map(index=>`<button type="button" onclick="showArchiveImage('${folder.id}',${index})"><img src="${archivePath(folder,index)}" alt="Image ${String(index).padStart(2,'0')}"></button>`).join('')}</div><p id="archiveCaption" class="caption">${folder.note} File 01 of ${String(folder.count).padStart(2,'0')}.</p>`;
+  gallery.classList.add('active');
+  setTimeout(()=>gallery.scrollIntoView({behavior:'smooth',block:'start'}),0);
+}
+function showArchiveImage(id,index){
+  const folder=archiveFolders.find(item=>item.id===id);if(!folder)return;
+  const main=document.getElementById('archiveMainPhoto');main.src=archivePath(folder,index);main.alt=`${folder.title}, image ${String(index).padStart(2,'0')}`;
+  document.getElementById('archiveCaption').textContent=`${folder.note} File ${String(index).padStart(2,'0')} of ${String(folder.count).padStart(2,'0')}.`;
+}
 addEventListener('hashchange',route);route();
 </script>
 </body></html>
