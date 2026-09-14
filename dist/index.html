@@ -97,7 +97,7 @@ function showArchiveImage(id,index){
   const folder=archiveFolders.find(item=>item.id===id);if(!folder)return;
   const main=document.getElementById('archiveMainPhoto');main.src=archivePath(folder,index);main.alt=`${folder.title}, image ${String(index).padStart(2,'0')}`;
   const caption=document.getElementById('archiveCaption');
-  if(folder.id==='common-room'&&index===4){caption.innerHTML=`<span class="archive-note">BLACK MIRROR / ESPELHO NEGRO</span><br>Object listed without comment. File 04 of 07.`}
+  if(folder.id==='common-room'&&index===4){caption.innerHTML=`<span class="archive-note">BLACK MIRROR / ESPELHO NEGRO</span><br>Object listed without comment. File 04 of 07.<br>Photograph dated September 18, 1994.`}
   else caption.textContent=`${folder.note} File ${String(index).padStart(2,'0')} of ${String(folder.count).padStart(2,'0')}.`;
 }
 addEventListener('hashchange',route);route();
